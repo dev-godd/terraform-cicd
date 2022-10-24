@@ -3,9 +3,19 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+locals {
+  subnetCount = var.preferred_number_of_public_subnets == null ? length(data.aws_availability_zones.available.names) : var.preferred_number_of_public_subnets
+  tags = {
+    Environment     = "Dev"
+    Owner-Email     = "devops.chisom@gmail.com"
+    Managed-By      = "Terraform"
+    Billing-Account = "1234567890"
+  }
+}
+
 provider "aws" {
   region  = var.region
-  profile = "entochmum"
+  profile = "devops.chisom"
 }
 
 
@@ -14,21 +24,5 @@ resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = var.enable_dns_support
   enable_dns_hostnames = var.enable_dns_hostnames
-  tags = {
-    "Name" = "MC-VPC"
-  }
-
-}
-
-# Create public subnets
-resource "aws_subnet" "public" {
-  count                   = var.preferred_number_of_public_subnets == null ? length(data.aws_availability_zones.available.names) : var.preferred_number_of_public_subnets
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = cidrsubnet(var.vpc_cidr, 8, count.index)
-  map_public_ip_on_launch = true
-  availability_zone       = data.aws_availability_zones.available.names[count.index]
-  tags = {
-    "Name" = "MC-PublicSubnet-${count.index + 1}"
-  }
-
+  tags                 = merge({ "Name" = "MC-VPC" }, local.tags)
 }

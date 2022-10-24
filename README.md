@@ -1,6 +1,6 @@
-# AUTOMATE INFRASTRUCTURE WITH IAC USING TERRAFORM PART 1
+## AUTOMATE INFRASTRUCTURE WITH IAC USING TERRAFORM PART 1
 
-This project will automate The [Multi-site Project](https://github.com/chis0m/devops-pbl-projects/blob/master/p15-multiple-site-on-aws.md)
+This manual implementation of this project using AWS console is at [Multi-site Project](https://github.com/chis0m/devops-pbl-projects/blob/master/p15-multiple-site-on-aws.md)
 
 #### Initialize terraform
 - in project folder create `main.tf` file
