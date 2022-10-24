@@ -53,7 +53,7 @@ variable "master-username" {
   description = "RDS admin username"
 }
 
-variable "master-password" {
+variable "master-pass" {
   type        = string
   description = "RDS master password"
 

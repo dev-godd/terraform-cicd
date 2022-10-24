@@ -15,7 +15,7 @@ resource "aws_db_instance" "mc-rds" {
   instance_class    = "db.t2.micro"
   db_name           = var.db_name
   username          = var.master-username
-  password          = var.master-password
+  password          = var.master-pass
   # tflint-ignore: aws_db_instance_default_parameter_group
   parameter_group_name   = "default.mysql5.7"
   db_subnet_group_name   = aws_db_subnet_group.mc-rds.name

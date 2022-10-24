@@ -18,6 +18,6 @@ account_no = "139080726045"
 
 master-username = "admin"
 
-master-password = "(Master##123)"
+master-pass = "(Master##123)"
 
 db_name = "mcdb"
