@@ -11,9 +11,8 @@ terraform {
     }
   }
   backend "s3" {
-    bucket  = "containa"
+    bucket  = "containar"
     key     = "terraformstate/terraform.tfstate"
     region  = "us-east-1"
-    profile = "entochmum"
   }
 }

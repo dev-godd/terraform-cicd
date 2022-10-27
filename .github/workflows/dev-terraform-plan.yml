@@ -57,7 +57,7 @@ jobs:
       - name: Terraform Workflow
         run: |
           terraform init
+          terraform validate
           terraform workspace new ${{ env.workspace }}
           terraform workspace select ${{ env.workspace }}
-          terraform validate
           terraform plan -var-file="env/{{ env.workspace }}.tfvars"
