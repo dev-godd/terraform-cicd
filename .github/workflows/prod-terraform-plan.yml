@@ -53,10 +53,24 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
-      - name: Terraform Workflow
-        run: |
-          terraform init
-          terraform validate
-          terraform workspace new ${{ env.workspace }}
-          terraform workspace select ${{ env.workspace }}
-          terraform plan -var-file=env/'{{ env.workspace }}'.tfvars
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
+
+      - name: Terraform Create New Workspace
+        id: new-workspace
+        run: terraform workspace new ${{ env.workspace }}
+        continue-on-error: true
+
+      - name: Terraform Select Workspace
+        id: select-workspace
+        run: terraform workspace select ${{ env.workspace }}
+        continue-on-error: true
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -var-file=env/'{{ env.workspace }}'.tfvars
