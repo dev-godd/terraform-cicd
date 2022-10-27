@@ -14,5 +14,6 @@ terraform {
     bucket  = "containar"
     key     = "terraformstate/terraform.tfstate"
     region  = "us-east-1"
+    profile = "devops.chisom"
   }
 }
