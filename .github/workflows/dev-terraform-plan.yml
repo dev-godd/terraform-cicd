@@ -60,4 +60,4 @@ jobs:
           terraform validate
           terraform workspace new ${{ env.workspace }}
           terraform workspace select ${{ env.workspace }}
-          terraform plan -var-file="env/{{ env.workspace }}.tfvars"
+          terraform plan -var-file=env/'{{ env.workspace }}'.tfvars
