@@ -39,16 +39,25 @@ jobs:
     needs: tflint
     env:
       workspace: prod
+      profile: devops.chisom
+      region: us-east-1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
+#      - name: Configure AWS credentials
+#        uses: aws-actions/configure-aws-credentials@v1
+#        with:
+#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          aws-region: us-east-1
+
+      - name: Add profile credentials to ~/.aws/credentials
         uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ${{ env.profile }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile ${{ env.profile }}
+          aws configure set region ${{ env.region }} --profile ${{ env.profile }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -75,5 +84,5 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -var-file=env/prod.tfvars
+        run: terraform plan -var-file=env/${{ env.workspace }}.tfvars
         continue-on-error: false
