@@ -1,5 +1,5 @@
 resource "aws_lb" "ext-alb" {
-  name     = "MC-${workspace}-ExternalALB"
+  name     = "MC-${terraform.workspace}-ExternalALB"
   internal = false
   security_groups = [
     aws_security_group.ext-alb-sg.id,
@@ -10,7 +10,7 @@ resource "aws_lb" "ext-alb" {
     aws_subnet.public[1].id
   ]
 
-  tags = merge({ "Name" : "MC-${workspace}-ExternalALB" }, local.tags)
+  tags = merge({ "Name" : "MC-${terraform.workspace}-ExternalALB" }, local.tags)
 
   ip_address_type    = "ipv4"
   load_balancer_type = "application"
@@ -28,7 +28,7 @@ resource "aws_lb_target_group" "proxy-server-tg" {
     healthy_threshold   = 5
     unhealthy_threshold = 2
   }
-  name        = "MC-${workspace}-ProxyServer-TG"
+  name        = "MC-${terraform.workspace}-ProxyServer-TG"
   port        = 443
   protocol    = "HTTPS"
   target_type = "instance"
