@@ -31,7 +31,7 @@ resource "aws_efs_file_system" "mc-efs" {
   encrypted  = true
   kms_key_id = aws_kms_key.mc-kms.arn
 
-  tags = merge({ "Name" : "MC-EFS" }, local.tags)
+  tags = merge({ "Name" : "MC-${workspace}-EFS" }, local.tags)
 }
 
 # set first mount target for the EFS

@@ -1,7 +1,7 @@
 # create route table for the public subnets
 resource "aws_route_table" "public-rtb" {
   vpc_id = aws_vpc.main.id
-  tags   = merge({ "Name" : "MC-PublicRouteTable" }, local.tags)
+  tags   = merge({ "Name" : "MC-${workspace}-PublicRouteTable" }, local.tags)
 }
 
 # create route for the public route table and attach the internet gateway
@@ -23,7 +23,7 @@ resource "aws_route_table_association" "public-subnets-assoc" {
 # create private route table for web and proxy server
 resource "aws_route_table" "web-proxy-server-private-rtb" {
   vpc_id = aws_vpc.main.id
-  tags   = merge({ "Name" : "MC-WebAndProxyServer-PrivateRouteTable" }, local.tags)
+  tags   = merge({ "Name" : "MC-${workspace}-WebAndProxyServer-PrivateRouteTable" }, local.tags)
 }
 
 # create route for the private route table and attach the nat gateway
@@ -52,7 +52,7 @@ resource "aws_route_table_association" "web-server-private-subnets-assoc" {
 # create private route table for database
 resource "aws_route_table" "database-private-rtb" {
   vpc_id = aws_vpc.main.id
-  tags   = merge({ "Name" : "MC-Database-PrivateRouteTable" }, local.tags)
+  tags   = merge({ "Name" : "MC-${workspace}-Database-PrivateRouteTable" }, local.tags)
 }
 
 # associate database subnets to the private route table
