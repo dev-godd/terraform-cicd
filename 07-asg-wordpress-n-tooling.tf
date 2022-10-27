@@ -22,7 +22,7 @@ resource "aws_launch_template" "wordpress-app-lt" {
   tag_specifications {
     resource_type = "instance"
 
-    tags = merge({ "Name" : "MC-Wordpress-LaunchTemplate" }, local.tags)
+    tags = merge({ "Name" : "MC-${terraform.workspace}-Wordpress-LaunchTemplate" }, local.tags)
 
   }
 
@@ -84,7 +84,7 @@ resource "aws_launch_template" "tooling-app-lt" {
   tag_specifications {
     resource_type = "instance"
 
-    tags = merge({ "Name" : "MC-ToolingApp-LaunchTemplate" }, local.tags)
+    tags = merge({ "Name" : "MC-${terraform.workspace}-ToolingApp-LaunchTemplate" }, local.tags)
   }
 
   user_data = filebase64("${path.module}/bin/tooling.sh")
@@ -113,7 +113,7 @@ resource "aws_autoscaling_group" "tooling-asg" {
 
   tag {
     key                 = "Name"
-    value               = "MC-ToolingApp-LT"
+    value               = "MC-${terraform.workspace}-ToolingApp-LT"
     propagate_at_launch = true
   }
 }

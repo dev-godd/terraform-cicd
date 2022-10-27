@@ -13,7 +13,7 @@ resource "aws_iam_role" "ec2_instance_role" {
       },
     ]
   })
-  tags = merge({ "Name" : "MC-AssumeRole" }, local.tags)
+  tags = merge({ "Name" : "MC-${terraform.workspace}-AssumeRole" }, local.tags)
 }
 
 resource "aws_iam_policy" "policy" {
@@ -32,7 +32,7 @@ resource "aws_iam_policy" "policy" {
     ]
 
   })
-  tags = merge({ "Name" : "MC-AssumeRolePolicy" }, local.tags)
+  tags = merge({ "Name" : "MC-${terraform.workspace}-AssumeRolePolicy" }, local.tags)
 }
 
 resource "aws_iam_role_policy_attachment" "test-attach" {

@@ -3,7 +3,7 @@
 #---------------------------------
 
 resource "aws_lb" "internal-alb" {
-  name     = "MC-Internal-ALB"
+  name     = "MC-${terraform.workspace}-Internal-ALB"
   internal = true
   security_groups = [
     aws_security_group.int-alb-sg.id,
@@ -14,7 +14,7 @@ resource "aws_lb" "internal-alb" {
     aws_subnet.web-server-private[1].id
   ]
 
-  tags = merge({ "Name" : "MC-InternalALB" }, local.tags)
+  tags = merge({ "Name" : "MC-${terraform.workspace}-InternalALB" }, local.tags)
 
   ip_address_type    = "ipv4"
   load_balancer_type = "application"
@@ -32,7 +32,7 @@ resource "aws_lb_target_group" "wordpress-tg" {
     unhealthy_threshold = 2
   }
 
-  name        = "MC-WordpressApp-TG"
+  name        = "MC-${terraform.workspace}-WordpressApp-TG"
   port        = 443
   protocol    = "HTTPS"
   target_type = "instance"
@@ -51,7 +51,7 @@ resource "aws_lb_target_group" "tooling-tg" {
     unhealthy_threshold = 2
   }
 
-  name        = "MC-ToolingApp-TG"
+  name        = "MC-${terraform.workspace}-ToolingApp-TG"
   port        = 443
   protocol    = "HTTPS"
   target_type = "instance"

@@ -3,7 +3,7 @@ resource "aws_db_subnet_group" "mc-rds" {
   name       = "acs-rds"
   subnet_ids = [aws_subnet.database-private[0].id, aws_subnet.database-private[1].id]
 
-  tags = merge({ "Name" : "MC-RDS" }, local.tags)
+  tags = merge({ "Name" : "MC-${terraform.workspace}-RDS" }, local.tags)
 }
 
 # create the RDS instance with the subnets group

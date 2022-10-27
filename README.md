@@ -38,3 +38,13 @@ variable "region" {
 # terraform.tfvars file
 region = "eu-central-1"
 ```
+
+
+#### Terraform Workspaces
+- create two workspaces, dev and prod with the command `terraform workspace new dev`
+- List workspaces  `terraform workspace list`
+- Show the exact workspace `terraform workspace show`
+- Switch workspace `terraform workspace select prod`
+
+### Terrafrom CICD
+- Let the tflint version on your local match what you have in cicd

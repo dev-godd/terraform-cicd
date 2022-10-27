@@ -47,7 +47,7 @@ resource "aws_launch_template" "bastion-lt" {
   tag_specifications {
     resource_type = "instance"
 
-    tags = merge({ "Name" : "MC-Bastion-LaunchTemplate" }, local.tags)
+    tags = merge({ "Name" : "MC-${terraform.workspace}-Bastion-LaunchTemplate" }, local.tags)
   }
 
   user_data = filebase64("${path.module}/bin/bastion.sh")
@@ -74,7 +74,7 @@ resource "aws_autoscaling_group" "bastion-asg" {
   }
   tag {
     key                 = "Name"
-    value               = "MC-Bastion-ASG"
+    value               = "MC-${terraform.workspace}-Bastion-ASG"
     propagate_at_launch = true
   }
 
@@ -104,7 +104,7 @@ resource "aws_launch_template" "proxy-server-lt" {
   tag_specifications {
     resource_type = "instance"
 
-    tags = merge({ "Name" : "MC-ProxyServer-LaunchTemplate" }, local.tags)
+    tags = merge({ "Name" : "MC-${terraform.workspace}-ProxyServer-LaunchTemplate" }, local.tags)
   }
 
   user_data = filebase64("${path.module}/bin/nginx.sh")
@@ -132,7 +132,7 @@ resource "aws_autoscaling_group" "proxy-server-asg" {
 
   tag {
     key                 = "Name"
-    value               = "MC-ProxyServer-ASG"
+    value               = "MC-${terraform.workspace}-ProxyServer-ASG"
     propagate_at_launch = true
   }
 

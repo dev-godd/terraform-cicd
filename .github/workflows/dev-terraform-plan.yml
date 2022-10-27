@@ -1,0 +1,82 @@
+name: Lint, Validate and Plan Dev Infra
+on:
+  pull_request:
+    branches: [ develop, delete-develop ]
+    types: [ opened, synchronize, reopened, ready_for_review ]
+
+jobs:
+  tflint:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout source code
+
+      - uses: actions/cache@v2
+        name: Cache plugin dir
+        with:
+          path: ~/.tflint.d/plugins
+          key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
+
+      - uses: terraform-linters/setup-tflint@v2
+        name: Setup TFLint
+        with:
+          tflint_version: v0.42.1
+
+      - name: Show version
+        run: tflint --version
+
+      - name: Init TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        run: tflint -f compact
+
+  plan:
+    name: Plan
+    runs-on: ubuntu-latest
+    needs: tflint
+    env:
+      workspace: dev
+      profile: devops.chisom
+      region: us-west-2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Add profile credentials to ~/.aws/credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile ${{ env.profile }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile ${{ env.profile }}
+          aws configure set region ${{ env.region }} --profile ${{ env.profile }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+        continue-on-error: false
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
+        continue-on-error: false
+
+      - name: Terraform Create New Workspace
+        id: new-workspace
+        run: terraform workspace new ${{ env.workspace }}
+        continue-on-error: true
+
+      - name: Terraform Select Workspace
+        id: select-workspace
+        run: terraform workspace select ${{ env.workspace }}
+        continue-on-error: true
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -var-file=env/${{ env.workspace }}.tfvars
+        continue-on-error: false
