@@ -45,3 +45,6 @@ region = "eu-central-1"
 - List workspaces  `terraform workspace list`
 - Show the exact workspace `terraform workspace show`
 - Switch workspace `terraform workspace select prod`
+
+### Terrafrom CICD
+
