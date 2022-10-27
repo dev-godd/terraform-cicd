@@ -2,6 +2,7 @@ name: Lint, Validate and Plan Prod Infra
 on:
   pull_request:
     branches: [ master ]
+    types: [ opened, ready_for_review ]
 jobs:
   tflint:
     runs-on: ${{ matrix.os }}

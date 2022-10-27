@@ -2,7 +2,7 @@ name: Delete Dev Infra
 on:
   pull_request:
     types: [ closed ]
-    branches: [ master ]
+    branches: [ delete-develop ]
 env:
   workspace: dev
 jobs:
