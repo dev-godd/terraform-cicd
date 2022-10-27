@@ -47,4 +47,4 @@ region = "eu-central-1"
 - Switch workspace `terraform workspace select prod`
 
 ### Terrafrom CICD
-
+- Let the tflint version on your local match what you have in cicd
