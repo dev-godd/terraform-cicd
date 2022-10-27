@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        os: [ ubuntu-latest ]
     steps:
       - uses: actions/checkout@v2
         name: Checkout source code
@@ -21,8 +21,8 @@ jobs:
 
       - uses: terraform-linters/setup-tflint@v2
         name: Setup TFLint
-#        with:
-#          tflint_version: v0.41.1
+        with:
+          tflint_version: v0.41.1
 
       - name: Show version
         run: tflint --version
